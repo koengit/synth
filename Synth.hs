@@ -335,12 +335,15 @@ synth sig props =
      prog <- sequence
                [ do rhs@(Node sg _) <- newTerm s sig' depth
                     addClause s [ sg .= g | g <- domain sg, res g == res f ]
+                    
+                    -- play around with commenting these in/out to restrict the shape of programs
                     typeCorrect s rhs
                     ifAndCallOnVar s rhs
                     sane s rhs
                     noDoubles s rhs
                     ifStruct s rhs
                     --isAndSelOnVar s rhs
+                    
                     return (f, vs, rhs)
                | f <- fs
                , let vs   = [ var t i | (t,i) <- args f `zip` [1..] ]
